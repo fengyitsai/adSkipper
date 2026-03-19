@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      width: 340px;
+      padding: 12px;
+      font-family: system-ui, sans-serif;
+      font-size: 13px;
+    }
+    h3 { margin: 0 0 8px; }
+    button {
+      width: 100%;
+      padding: 8px;
+      margin: 4px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+    #startBtn { background: #4CAF50; color: white; border: none; }
+    #stopBtn { background: #f44336; color: white; border: none; }
+    #clearBtn { background: #ff9800; color: white; border: none; }
+    #status { margin: 8px 0; padding: 6px; border-radius: 4px; }
+    .on { background: #e8f5e9; color: #2e7d32; }
+    .off { background: #fbe9e7; color: #bf360c; }
+    #log {
+      max-height: 300px;
+      overflow-y: auto;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 6px;
+      font-family: monospace;
+      font-size: 11px;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+    .log-add { color: #2e7d32; }
+    .log-remove { color: #c62828; }
+    .log-attr { color: #1565c0; }
+    #filter { width: 100%; padding: 6px; margin: 4px 0; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <h3>Ad Element Detector</h3>
+  <div id="status" class="off">Stopped</div>
+  <button id="startBtn">Start Observing</button>
+  <button id="stopBtn">Stop Observing</button>
+  <input id="filter" type="text" placeholder="Filter (e.g. ad, skip, sponsor...)">
+  <button id="clearBtn">Clear Log</button>
+  <div id="log"></div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "Ad Element Detector",
+  "version": "0.1.0",
+  "description": "Detects DOM changes on streaming sites to help identify ad elements",
+  "permissions": ["activeTab"],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.netflix.com/*",
+        "https://www.amazon.com/*",
+        "https://www.primevideo.com/*"
+      ],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  }
+}

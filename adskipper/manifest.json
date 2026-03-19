@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "Ad Skipper",
+  "version": "1.1.0",
+  "description": "Automatically speeds up ads on streaming sites",
+  "permissions": ["storage", "scripting"],
+  "host_permissions": [
+    "https://www.netflix.com/*",
+    "https://www.amazon.com/*",
+    "https://www.primevideo.com/*",
+    "*://*/*"
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "service_worker": "background.js"
+  }
+}

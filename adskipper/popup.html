@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      width: 360px;
+      padding: 16px;
+      font-family: system-ui, sans-serif;
+      font-size: 13px;
+    }
+    h3 { margin: 0 0 12px; }
+    section { margin-bottom: 16px; }
+    section h4 { margin: 0 0 6px; font-size: 13px; color: #555; }
+
+    .site-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 4px 0;
+    }
+    .site-row input[type="text"] { flex: 1; }
+    .site-row button { width: 28px; height: 28px; padding: 0; cursor: pointer; }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 6px 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 12px;
+      font-family: monospace;
+      box-sizing: border-box;
+    }
+
+    .selector-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 4px 0;
+    }
+    .selector-row input { flex: 1; }
+    .selector-row button { width: 28px; height: 28px; padding: 0; cursor: pointer; }
+
+    .speed-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .speed-row input[type="number"] {
+      width: 70px;
+      padding: 6px 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 13px;
+    }
+
+    button.add {
+      margin-top: 4px;
+      padding: 4px 12px;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+    button.save {
+      width: 100%;
+      padding: 10px;
+      background: #1a73e8;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    button.save:hover { background: #1557b0; }
+    #status {
+      margin-top: 8px;
+      text-align: center;
+      color: #4CAF50;
+      font-size: 12px;
+      min-height: 16px;
+    }
+  </style>
+</head>
+<body>
+  <h3>Ad Skipper Settings</h3>
+
+  <section>
+    <h4>Sites</h4>
+    <div id="sites"></div>
+    <button class="add" id="addSite">+ Add Site</button>
+  </section>
+
+  <section>
+    <h4>Ad Selectors</h4>
+    <div id="selectors"></div>
+    <button class="add" id="addSelector">+ Add Selector</button>
+  </section>
+
+  <section>
+    <h4>Normal Speed</h4>
+    <div class="speed-row">
+      <input type="number" id="normalSpeed" min="0.25" max="16" step="0.25" value="1">
+      <span>x</span>
+    </div>
+  </section>
+
+  <section>
+    <h4>Ad Speed</h4>
+    <div class="speed-row">
+      <input type="number" id="adSpeed" min="2" max="16" step="1" value="16">
+      <span>x</span>
+    </div>
+  </section>
+
+  <section>
+    <h4>Keyboard Shortcuts</h4>
+    <div style="font-size:12px;color:#666;line-height:1.8;">
+      <kbd style="background:#eee;padding:2px 6px;border-radius:3px;border:1px solid #ccc;">D</kbd> Speed up +0.1x<br>
+      <kbd style="background:#eee;padding:2px 6px;border-radius:3px;border:1px solid #ccc;">A</kbd> Slow down -0.1x<br>
+      <kbd style="background:#eee;padding:2px 6px;border-radius:3px;border:1px solid #ccc;">S</kbd> Reset to 1x
+    </div>
+  </section>
+
+  <button class="save" id="saveBtn">Save</button>
+  <div id="status"></div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
