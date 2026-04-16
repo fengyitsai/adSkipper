@@ -8,6 +8,15 @@ if (window.__adSkipperLoaded) {
   let adSelectors = [];
   let adSpeed = 16;
   let adActive = false;
+  let adConfirmCount = 0;
+  const AD_CONFIRM_THRESHOLD = 2; // require 2 consecutive positive checks before entering ad mode
+
+  // Dynamic polling — faster during ads to catch ad end sooner
+  let pollTimer = null;
+  function startPolling(fast) {
+    clearInterval(pollTimer);
+    pollTimer = setInterval(checkAd, fast ? 100 : 500);
+  }
 
   function getVideo() {
     return document.querySelector('video');
@@ -21,21 +30,40 @@ if (window.__adSkipperLoaded) {
     }
   }
 
+  function isElementVisible(el) {
+    if (!el) return false;
+    const style = getComputedStyle(el);
+    if (style.display === 'none' || style.visibility === 'hidden' || style.opacity === '0') return false;
+    const rect = el.getBoundingClientRect();
+    return rect.width > 0 || rect.height > 0;
+  }
+
   function isAdPlaying() {
-    return adSelectors.some(sel => document.querySelector(sel) !== null);
+    return adSelectors.some(sel => {
+      const el = document.querySelector(sel);
+      return el && isElementVisible(el);
+    });
   }
 
   function checkAd() {
     const adNow = isAdPlaying();
 
     if (adNow && !adActive) {
-      adActive = true;
-      setSpeed(adSpeed);
-      console.log('[AdSkipper] Ad detected — speeding up to', adSpeed, 'x');
+      adConfirmCount++;
+      if (adConfirmCount >= AD_CONFIRM_THRESHOLD) {
+        adActive = true;
+        startPolling(true);
+        setSpeed(adSpeed);
+        console.log('[AdSkipper] Ad confirmed — speeding up to', adSpeed, 'x');
+      }
     } else if (!adNow && adActive) {
       adActive = false;
+      adConfirmCount = 0;
+      startPolling(false);
       setSpeed(normalSpeed);
       console.log('[AdSkipper] Ad ended — back to normal speed', normalSpeed, 'x');
+    } else if (!adNow) {
+      adConfirmCount = 0;
     }
   }
 
@@ -56,8 +84,9 @@ if (window.__adSkipperLoaded) {
     }
 
     const observer = new MutationObserver(() => checkAd());
-    observer.observe(document.body, { childList: true, subtree: true });
-    setInterval(checkAd, 500);
+    observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['class', 'style', 'data-adbreakstarted'] });
+
+    startPolling(false);
     checkAd();
 
     console.log('[AdSkipper] Loaded — watching selectors:', adSelectors);
